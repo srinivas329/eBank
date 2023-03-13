@@ -3,20 +3,21 @@ import {Component} from 'react'
 import './index.css'
 
 class Login extends Component {
-  state = {userId: '', pin: ''}
+  state = {userId: '', pinNum: ''}
 
   onChangeUserId = event => {
     this.setState({userId: event.target.value})
   }
 
   onChangePin = event => {
-    this.setState({pin: event.target.value})
+    this.setState({pinNum: event.target.value})
   }
 
-  onSubmitForm = async event => {
+  onSubmitLoginForm = async event => {
     event.preventDefault()
-    const {userId, pin} = this.state
-    const userDetails = {userId, pin}
+    const {userId, pinNum} = this.state
+
+    const userDetails = {userId, pinNum}
     const url = 'https://apis.ccbp.in/ebank/login'
     const options = {
       method: 'POST',
@@ -24,12 +25,11 @@ class Login extends Component {
     }
     const response = await fetch(url, options)
     const data = await response.json()
+    console.log(userDetails)
     console.log(data)
   }
 
   render() {
-    const {userId, pin} = this.state
-    console.log(userId, pin)
     return (
       <div className="login-bg">
         <div className="login-card-bg">
@@ -38,13 +38,12 @@ class Login extends Component {
             alt="login"
           />
           <div>
-            <form className="login-form" onSubmit={this.onSubmitForm}>
+            <form className="login-form" onSubmit={this.onSubmitLoginForm}>
               <h1 className="welcome-text">Welcome Back!</h1>
               <div>
                 <label htmlFor="userId">User ID</label>
                 <br />
                 <input
-                  value={userId}
                   onChange={this.onChangeUserId}
                   className="input"
                   id="userId"
@@ -55,7 +54,6 @@ class Login extends Component {
                 <br />
                 <input
                   onChange={this.onChangePin}
-                  value={pin}
                   className="input"
                   id="pin"
                   type="password"
